@@ -14,8 +14,9 @@ public class JCFMessageService implements MessageService {
     }
 
     @Override
-    public void create(Message message) {
+    public Message create(Message message) {
         data.put(message.getId(), message);
+        return message;
     }
 
     @Override

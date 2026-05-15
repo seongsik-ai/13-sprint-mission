@@ -14,8 +14,9 @@ public class JCFUserService implements UserService {
     }
 
     @Override
-    public void create(User user) {
+    public User create(User user) {
         data.put(user.getId(), user);
+        return user;
     }
 
     @Override

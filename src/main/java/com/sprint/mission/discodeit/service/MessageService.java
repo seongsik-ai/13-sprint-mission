@@ -8,7 +8,7 @@ import java.util.UUID;
 public interface MessageService {
 
     // 생성
-    void create(Message message);
+    Message create(Message message);
 
     // 단건 조회
     Message getById(UUID id);

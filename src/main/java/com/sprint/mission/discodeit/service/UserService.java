@@ -6,7 +6,7 @@ import com.sprint.mission.discodeit.entity.User;
 
 public interface UserService {
 
-    void create(User user);
+    User create (User user);
 
     User getById(UUID id);
 
