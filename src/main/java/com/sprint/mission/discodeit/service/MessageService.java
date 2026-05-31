@@ -7,18 +7,13 @@ import java.util.UUID;
 
 public interface MessageService {
 
-    // 생성
     Message create(Message message);
 
-    // 단건 조회
-    Message getById(UUID id);
+    Message find(UUID id);
 
-    // 전체 조회
-    List<Message> getAll();
+    List<Message> findAll();
 
-    // 수정
     Message update(UUID id, String content);
 
-    // 삭제
     void delete(UUID id);
 }

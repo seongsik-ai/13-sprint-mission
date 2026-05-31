@@ -1,4 +1,4 @@
-package com.sprint.mission.discodeit.service.jcf;
+package com.sprint.mission.discodeit.service.file;
 
 import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.repository.UserRepository;
@@ -7,11 +7,11 @@ import com.sprint.mission.discodeit.service.UserService;
 import java.util.List;
 import java.util.UUID;
 
-public class JCFUserService implements UserService {
+public class FileUserService implements UserService {
 
     private final UserRepository repository;
 
-    public JCFUserService(UserRepository repository) {
+    public FileUserService(UserRepository repository) {
         this.repository = repository;
     }
 
@@ -23,8 +23,7 @@ public class JCFUserService implements UserService {
     @Override
     public User find(UUID id) {
         return repository.findById(id)
-                .orElseThrow(() ->
-                        new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 
     @Override
@@ -36,7 +35,6 @@ public class JCFUserService implements UserService {
     public User update(UUID id, String username, String email) {
 
         User user = find(id);
-
         user.update(username, email);
 
         return repository.save(user);

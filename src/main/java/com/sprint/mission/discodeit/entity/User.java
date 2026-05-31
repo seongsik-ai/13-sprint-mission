@@ -1,8 +1,12 @@
 package com.sprint.mission.discodeit.entity;
 
+import java.io.Serializable;
+import java.time.Instant;
 import java.util.UUID;
 
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final UUID id;
     private final Long createdAt;
@@ -11,21 +15,13 @@ public class User {
     private String username;
     private String email;
 
-
     public User(String username, String email) {
-
-        if (username == null || email == null) {
-            throw new IllegalArgumentException("username or email cannot be null");
-        }
-
         this.id = UUID.randomUUID();
-        this.createdAt = System.currentTimeMillis();
-        this.updatedAt = this.createdAt;
+        this.createdAt = Instant.now().toEpochMilli();
 
         this.username = username;
         this.email = email;
     }
-
 
     public UUID getId() {
         return id;
@@ -47,27 +43,9 @@ public class User {
         return email;
     }
 
-
     public void update(String username, String email) {
-
-        if (username == null || email == null) {
-            throw new IllegalArgumentException("username or email cannot be null");
-        }
-
         this.username = username;
         this.email = email;
-        this.updatedAt = System.currentTimeMillis();
-    }
-
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+        this.updatedAt = Instant.now().toEpochMilli();
     }
 }

@@ -1,8 +1,12 @@
 package com.sprint.mission.discodeit.entity;
 
+import java.io.Serializable;
+import java.time.Instant;
 import java.util.UUID;
 
-public class Channel {
+public class Channel implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final UUID id;
     private final Long createdAt;
@@ -11,22 +15,14 @@ public class Channel {
     private String name;
     private String description;
 
-    // 생성자
     public Channel(String name, String description) {
-
-        if (name == null || description == null) {
-            throw new IllegalArgumentException("name or description cannot be null");
-        }
-
         this.id = UUID.randomUUID();
-        this.createdAt = System.currentTimeMillis();
-        this.updatedAt = this.createdAt;
+        this.createdAt = Instant.now().toEpochMilli();
 
         this.name = name;
         this.description = description;
     }
 
-    // Getter
     public UUID getId() {
         return id;
     }
@@ -47,26 +43,9 @@ public class Channel {
         return description;
     }
 
-    // update 메서드
     public void update(String name, String description) {
-
-        if (name == null || description == null) {
-            throw new IllegalArgumentException("name or description cannot be null");
-        }
-
         this.name = name;
         this.description = description;
-        this.updatedAt = System.currentTimeMillis();
-    }
-
-    @Override
-    public String toString() {
-        return "Channel{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+        this.updatedAt = Instant.now().toEpochMilli();
     }
 }

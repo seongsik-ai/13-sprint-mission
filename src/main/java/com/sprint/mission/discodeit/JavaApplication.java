@@ -1,38 +1,73 @@
 package com.sprint.mission.discodeit;
 
+import com.sprint.mission.discodeit.entity.Channel;
+import com.sprint.mission.discodeit.entity.Message;
 import com.sprint.mission.discodeit.entity.User;
+
+import com.sprint.mission.discodeit.repository.ChannelRepository;
+import com.sprint.mission.discodeit.repository.MessageRepository;
+import com.sprint.mission.discodeit.repository.UserRepository;
+
+import com.sprint.mission.discodeit.repository.file.FileChannelRepository;
+import com.sprint.mission.discodeit.repository.file.FileMessageRepository;
+import com.sprint.mission.discodeit.repository.file.FileUserRepository;
+
+import com.sprint.mission.discodeit.service.ChannelService;
+import com.sprint.mission.discodeit.service.MessageService;
 import com.sprint.mission.discodeit.service.UserService;
-import com.sprint.mission.discodeit.service.jcf.JCFUserService;
+
+import com.sprint.mission.discodeit.service.file.FileChannelService;
+import com.sprint.mission.discodeit.service.file.FileMessageService;
+import com.sprint.mission.discodeit.service.file.FileUserService;
 
 public class JavaApplication {
 
     public static void main(String[] args) {
 
-        UserService userService = new JCFUserService();
+        UserRepository userRepo =
+                new FileUserRepository("users.dat");
 
-        // 1. 생성
-        User user1 = new User("kim", "kim@test.com");
-        User user2 = new User("lee", "lee@test.com");
+        MessageRepository messageRepo =
+                new FileMessageRepository("messages.dat");
 
-        userService.create(user1);
-        userService.create(user2);
+        ChannelRepository channelRepo =
+                new FileChannelRepository("channels.dat");
 
-        // 2. 전체 조회
-        System.out.println("전체 조회: " + userService.getAll());
+        UserService userService =
+                new FileUserService(userRepo);
 
-        // 3. 단건 조회
-        System.out.println("단건 조회: " + userService.getById(user1.getId()));
+        MessageService messageService =
+                new FileMessageService(messageRepo);
 
-        // 4. 수정
-        userService.update(user1.getId(), "park", "park@test.com");
+        ChannelService channelService =
+                new FileChannelService(channelRepo);
 
-        // 5. 수정 후 조회
-        System.out.println("수정 후 조회: " + userService.getById(user1.getId()));
+        User user = new User("kim", "kim@test.com");
+        Channel channel = new Channel("general", "general chat");
+        Message message = new Message("hello", user.getId(), channel.getId());
 
-        // 6. 삭제
-        userService.delete(user1.getId());
+        userService.create(user);
+        channelService.create(channel);
+        messageService.create(message);
 
-        // 7. 삭제 후 전체 조회
-        System.out.println("삭제 후 전체 조회: " + userService.getAll());
+        System.out.println(userService.findAll());
+        System.out.println(channelService.findAll());
+        System.out.println(messageService.findAll());
+
+        userService.update(user.getId(), "kim-updated", "new@test.com");
+        channelService.update(channel.getId(), "random", "random chat");
+        messageService.update(message.getId(), "updated message");
+
+        System.out.println(userService.find(user.getId()).getUsername());
+        System.out.println(channelService.find(channel.getId()).getName());
+        System.out.println(messageService.find(message.getId()).getContent());
+
+        userService.delete(user.getId());
+        channelService.delete(channel.getId());
+        messageService.delete(message.getId());
+
+        System.out.println(userService.findAll());
+        System.out.println(channelService.findAll());
+        System.out.println(messageService.findAll());
     }
 }
